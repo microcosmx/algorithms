@@ -28,13 +28,34 @@ public class DDMinAlgorithm {
 	
 	
 	public List<String> testcases = Arrays.asList("test1", "test2");
+	
+	private List<String> deltas_all = null;
+	public void setDeltas_all(List<String> deltas_all) {
+		this.deltas_all = deltas_all;
+	}
+	private List<String> deltas_expected = null;
+
+	public void setDeltas_expected(List<String> deltas_expected) {
+		this.deltas_expected = deltas_expected;
+	}
+
+	public String expectError = "error1";
+	public String expectPass = "pass1";
 
 	public String testDelta(List<String> deltas) {
 		// apply delta
 		boolean result1 = applyDelta(deltas);
+		if(!result1) {
+			return "issue";
+		}
 
 		// run test case and get result
-		boolean result2 = processAndGetResult();
+		String result2 = processAndGetResult(deltas, testcases);
+		if(expectError.equals(result2)) {
+			return "error";
+		}else if(expectPass.equals(result2)){
+			return "pass";
+		}
 
 		/*
 		 * check result: 1. passed then return "pass" 2. exactly match the original
@@ -44,26 +65,32 @@ public class DDMinAlgorithm {
 		return "issue";
 	}
 
+	
 	public boolean applyDelta(List<String> deltas) {
+		// TODO apply delta
 		return true;
 	}
 
-	public boolean processAndGetResult() {
-		// execute testcases
-
-		return true;
+	public String processAndGetResult(List<String> deltas, List<String> testcases) {
+		// TODO execute testcases, hardcode "delta3", "delta6" here
+		String returnResult = "";
+		if(CollectionUtils.containsAll(deltas, deltas_expected)) {
+			returnResult = expectError;
+		}else if(CollectionUtils.containsAll(deltas, deltas_expected)){
+			returnResult = expectPass;
+		}else {
+			return "xxxxxx";
+		}
+		
+		return returnResult;
 	}
 
 	public List<String> ddmin(List<String> deltas) {
 
 		String result = testDelta(deltas);
-
-		if ("pass".equals(result)) {
-			return null;
-		} else if ("error".equals(result)) {
-			ddmin_n(deltas, 2);
-		} else if ("issue".equals(result)) {
-			return null;
+		
+		if ("error".equals(result)) {
+			return ddmin_n(deltas, 2);
 		}
 		
 		return null;
@@ -74,7 +101,7 @@ public class DDMinAlgorithm {
 		String result = null;
 		
 		int low = 0;
-		int high = deltas.size() - 1;
+		int high = deltas.size();
 		
 		int block_size = high / n;
 		
@@ -97,13 +124,13 @@ public class DDMinAlgorithm {
 			List<String> result_deltas = (List<String>) CollectionUtils.subtract(deltas, temp_deltas);
 			result = testDelta(result_deltas);
 			if ("error".equals(result)) {
-				return ddmin_n(temp_deltas, Math.max(n-1, 2));
+				return ddmin_n(result_deltas, Math.max(n-1, 2));
 			}
 		}
 		
 		//granularity
 		if(n < deltas.size()) {
-			return ddmin_n(deltas, Math.max(deltas.size(), 2*n));
+			return ddmin_n(deltas, Math.min(deltas.size(), 2*n));
 		}
 		
 		//find the delta
