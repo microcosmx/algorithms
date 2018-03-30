@@ -29,12 +29,7 @@ public class DDMinAlgorithm {
 	
 	public List<String> testcases = Arrays.asList("test1", "test2");
 	
-	private List<String> deltas_all = null;
-	public void setDeltas_all(List<String> deltas_all) {
-		this.deltas_all = deltas_all;
-	}
 	private List<String> deltas_expected = null;
-
 	public void setDeltas_expected(List<String> deltas_expected) {
 		this.deltas_expected = deltas_expected;
 	}
