@@ -24,36 +24,29 @@ public class DDMinAlgorithm {
 			return runBinarySearchRecursively(sortedArray, key, middle + 1, high);
 		}
 	}
-
 	
 	
-	public List<String> testcases = Arrays.asList("test1", "test2");
-	
-	private List<String> deltas_all = null;
-	public void setDeltas_all(List<String> deltas_all) {
-		this.deltas_all = deltas_all;
+	private DDMinDelta ddmin_delta = null;
+	public DDMinDelta getDdmin_delta() {
+		return ddmin_delta;
 	}
-	private List<String> deltas_expected = null;
-
-	public void setDeltas_expected(List<String> deltas_expected) {
-		this.deltas_expected = deltas_expected;
+	public void setDdmin_delta(DDMinDelta ddmin_delta) {
+		this.ddmin_delta = ddmin_delta;
 	}
 
-	public String expectError = "error1";
-	public String expectPass = "pass1";
 
 	public String testDelta(List<String> deltas) {
 		// apply delta
-		boolean result1 = applyDelta(deltas);
+		boolean result1 = ddmin_delta.applyDelta(deltas);
 		if(!result1) {
 			return "issue";
 		}
 
 		// run test case and get result
-		String result2 = processAndGetResult(deltas, testcases);
-		if(expectError.equals(result2)) {
+		String result2 = ddmin_delta.processAndGetResult(deltas, ddmin_delta.testcases);
+		if(ddmin_delta.expectError.equals(result2)) {
 			return "error";
-		}else if(expectPass.equals(result2)){
+		}else if(ddmin_delta.expectPass.equals(result2)){
 			return "pass";
 		}
 
@@ -65,25 +58,6 @@ public class DDMinAlgorithm {
 		return "issue";
 	}
 
-	
-	public boolean applyDelta(List<String> deltas) {
-		// TODO apply delta
-		return true;
-	}
-
-	public String processAndGetResult(List<String> deltas, List<String> testcases) {
-		// TODO execute testcases, hardcode "delta3", "delta6" here
-		String returnResult = "";
-		if(CollectionUtils.containsAll(deltas, deltas_expected)) {
-			returnResult = expectError;
-		}else if(CollectionUtils.containsAll(deltas, deltas_expected)){
-			returnResult = expectPass;
-		}else {
-			return "xxxxxx";
-		}
-		
-		return returnResult;
-	}
 
 	public List<String> ddmin(List<String> deltas) {
 
