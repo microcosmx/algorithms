@@ -26,7 +26,14 @@ public class DDMinDeltaExt extends DDMinDelta {
 	}
 
 	public boolean applyDelta(List<String> deltas) {
-		// TODO apply delta
+		// TODO 1. recovery to original cluster status
+		
+		
+		
+		// TODO 2. apply delta 
+		
+		
+		
 		return true;
 	}
 
