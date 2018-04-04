@@ -76,8 +76,14 @@ public class DDMinAlgorithm {
 		
 		int low = 0;
 		int high = deltas.size();
+		if(n > high) {
+			return deltas;
+		}
 		
 		int block_size = high / n;
+		if(block_size <= 1) {
+			n = high;
+		}
 		
 		//subset
 		for(int i = 0; i < n; i++) {

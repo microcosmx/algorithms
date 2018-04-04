@@ -17,9 +17,12 @@ public class DDMinDeltaExt extends DDMinDelta {
 		
 		testcases = Arrays.asList("test1", "test2");
 		
-		deltas_all = Arrays.asList("delta1", "delta2", "delta3",
-				"delta4", "delta5", "delta6","delta7", "delta8", "delta9","delta10", "delta11", "delta12");
-		deltas_expected = Arrays.asList("delta3","delta6","delta12");
+//		deltas_all = Arrays.asList("delta1", "delta2", "delta3",
+//				"delta4", "delta5", "delta6","delta7", "delta8", "delta9","delta10", "delta11", "delta12");
+//		deltas_expected = Arrays.asList("delta3","delta6","delta12");
+		
+		deltas_all = Arrays.asList("delta1", "delta2", "delta3");
+		deltas_expected = Arrays.asList("delta3");
 
 		expectError = "error1";
 		expectPass = "pass1";
