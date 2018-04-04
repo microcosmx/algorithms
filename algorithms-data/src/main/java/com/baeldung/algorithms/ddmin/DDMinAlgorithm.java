@@ -76,6 +76,7 @@ public class DDMinAlgorithm {
 		
 		int low = 0;
 		int high = deltas.size();
+		//make sure the most fine-grained granularity
 		if(n > high) {
 			return deltas;
 		}
