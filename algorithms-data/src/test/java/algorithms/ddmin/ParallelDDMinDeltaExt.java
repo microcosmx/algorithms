@@ -34,7 +34,7 @@ public class ParallelDDMinDeltaExt extends ParallelDDMinDelta {
 	public boolean applyDelta(List<String> deltas) {
 		// TODO 1. recovery to original cluster status
 		try {
-			Thread.sleep(600);
+			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -22,7 +22,7 @@ public class DDMinDeltaExt extends DDMinDelta {
 		deltas_expected = Arrays.asList("delta3","delta6","delta12");
 		
 //		deltas_all = Arrays.asList("delta1", "delta2", "delta3");
-//		deltas_expected = Arrays.asList("delta3");
+//		deltas_expected = Arrays.asList("delta2");
 
 		expectError = "error1";
 		expectPass = "pass1";
