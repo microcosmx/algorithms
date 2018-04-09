@@ -17,21 +17,20 @@ import com.baeldung.algorithms.ddmin.ParallelDDMinDelta;
 import com.baeldung.algorithms.ddmin.DDMinDelta;
 
 public class ParallelDDMinAlgorithmTest {
-	
+
 	@Test
 	public void ddmin_search() throws InterruptedException, ExecutionException {
 		ParallelDDMinAlgorithm ddmin = new ParallelDDMinAlgorithm();
 		ParallelDDMinDelta ddmin_delta = new ParallelDDMinDeltaExt();
 		ddmin.setDdmin_delta(ddmin_delta);
 		ddmin.initEnv();
-		
+
 		List<String> result = ddmin.ddmin(ddmin_delta.deltas_all);
 		System.out.println("-----------final result---------");
 		System.out.println(result);
-		
+
 		Assert.assertTrue(CollectionUtils.isEqualCollection(ddmin_delta.deltas_expected, result));
-		
+
 	}
 
 }
-

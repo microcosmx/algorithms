@@ -10,17 +10,15 @@ import org.junit.Test;
 import com.baeldung.algorithms.ddmin.DDMinAlgorithm;
 
 public class DDMinDelta {
-	
-	
+
 	public List<String> testcases = null;
-	
+
 	public List<String> deltas_expected = null;
 	public List<String> deltas_all = null;
 
 	public String expectError = "";
 	public String expectPass = "";
-	
-	
+
 	public boolean applyDelta(List<String> deltas) {
 		return true;
 	}

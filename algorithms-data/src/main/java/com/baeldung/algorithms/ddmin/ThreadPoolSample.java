@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 public class ThreadPoolSample {
 	private static int produceTaskSleepTime = 5;
 	private static int consumeTaskSleepTime = 5000;
-	private static int produceTaskMaxNumber = 20; 
+	private static int produceTaskMaxNumber = 20;
 
 	public static void main(String[] args) {
 		ThreadPoolExecutor threadPool = new ThreadPoolExecutor(2, 4, 3, TimeUnit.SECONDS,

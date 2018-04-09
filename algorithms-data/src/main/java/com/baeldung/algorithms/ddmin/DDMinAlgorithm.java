@@ -8,29 +8,29 @@ import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 
 public class DDMinAlgorithm {
-	
-	
+
 	private DDMinDelta ddmin_delta = null;
+
 	public DDMinDelta getDdmin_delta() {
 		return ddmin_delta;
 	}
+
 	public void setDdmin_delta(DDMinDelta ddmin_delta) {
 		this.ddmin_delta = ddmin_delta;
 	}
 
-
 	public String testDelta(List<String> deltas) {
 		// apply delta
 		boolean result1 = ddmin_delta.applyDelta(deltas);
-		if(!result1) {
+		if (!result1) {
 			return "issue";
 		}
 
 		// run test case and get result
 		String result2 = ddmin_delta.processAndGetResult(deltas, ddmin_delta.testcases);
-		if(ddmin_delta.expectError.equals(result2)) {
+		if (ddmin_delta.expectError.equals(result2)) {
 			return "error";
-		}else if(ddmin_delta.expectPass.equals(result2)){
+		} else if (ddmin_delta.expectPass.equals(result2)) {
 			return "pass";
 		}
 
@@ -42,63 +42,62 @@ public class DDMinAlgorithm {
 		return "issue";
 	}
 
-
 	public List<String> ddmin(List<String> deltas) {
 
 		String result = testDelta(deltas);
-		
+
 		if ("error".equals(result)) {
 			return ddmin_n(deltas, 2);
 		}
-		
+
 		return null;
 	}
 
 	public List<String> ddmin_n(List<String> deltas, int n) {
 
 		String result = null;
-		
+
 		int low = 0;
 		int high = deltas.size();
-		//make sure the most fine-grained granularity
-		if(n > high) {
+		// make sure the most fine-grained granularity
+		if (n > high) {
 			return deltas;
 		}
-		
+
 		int block_size = high / n;
-		if(block_size <= 1) {
+		if (block_size <= 1) {
 			n = high;
 		}
-		
-		//subset
-		for(int i = 0; i < n; i++) {
-			int start = low + i*block_size;
-			int end = Math.min(low + (i+1)*block_size, high);
+
+		// subset
+		for (int i = 0; i < n; i++) {
+			int start = low + i * block_size;
+			int end = Math.min(low + (i + 1) * block_size, high);
 			List<String> temp_deltas = deltas.subList(start, end);
 			result = testDelta(temp_deltas);
 			if ("error".equals(result)) {
 				return ddmin_n(temp_deltas, 2);
 			}
 		}
-		
-		//complement
-		for(int i = 0; i < n; i++) {
-			int start = low + i*block_size;
-			int end = Math.min(low + (i+1)*block_size, high);
+
+		// complement
+		for (int i = 0; i < n; i++) {
+			int start = low + i * block_size;
+			int end = Math.min(low + (i + 1) * block_size, high);
 			List<String> temp_deltas = deltas.subList(start, end);
 			List<String> result_deltas = (List<String>) CollectionUtils.subtract(deltas, temp_deltas);
 			result = testDelta(result_deltas);
 			if ("error".equals(result)) {
-				return ddmin_n(result_deltas, Math.max(n-1, 2));
+				return ddmin_n(result_deltas, Math.max(n - 1, 2));
 			}
 		}
-		
-		//granularity
-		if(n < deltas.size()) {
-			return ddmin_n(deltas, Math.min(deltas.size(), 2*n));
+
+		// granularity
+		if (n < deltas.size()) {
+			return ddmin_n(deltas, Math.min(deltas.size(), 2 * n));
 		}
-		
-		//find the delta
+
+		// find the delta
 		return deltas;
 
 	}
