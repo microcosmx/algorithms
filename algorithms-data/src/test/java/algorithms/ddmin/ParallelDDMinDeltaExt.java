@@ -9,13 +9,16 @@ import org.junit.Test;
 
 import com.baeldung.algorithms.ddmin.DDMinAlgorithm;
 import com.baeldung.algorithms.ddmin.DDMinDelta;
+import com.baeldung.algorithms.ddmin.ParallelDDMinDelta;
 
-public class ParallelDDMinDeltaExt extends DDMinDelta {
+public class ParallelDDMinDeltaExt extends ParallelDDMinDelta {
 	
 	public ParallelDDMinDeltaExt() {
 		super();
 		
 		testcases = Arrays.asList("test1", "test2");
+		
+		clusters = Arrays.asList("cluster1", "cluster2", "cluster3");
 		
 		deltas_all = Arrays.asList("delta1", "delta2", "delta3",
 				"delta4", "delta5", "delta6","delta7", "delta8", "delta9","delta10", "delta11", "delta12");
@@ -31,7 +34,7 @@ public class ParallelDDMinDeltaExt extends DDMinDelta {
 	public boolean applyDelta(List<String> deltas) {
 		// TODO 1. recovery to original cluster status
 		try {
-			Thread.sleep(300);
+			Thread.sleep(600);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
