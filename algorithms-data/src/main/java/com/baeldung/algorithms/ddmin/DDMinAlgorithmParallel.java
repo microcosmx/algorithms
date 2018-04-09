@@ -85,7 +85,7 @@ public class DDMinAlgorithmParallel {
 		}
 		
 		//subset
-		List<CompletableFuture<String>> futureList = new ArrayList<CompletableFuture<String>>();
+		List<CompletableFuture<List<Object>>> futureList = new ArrayList<CompletableFuture<List<Object>>>();
 		for(int i = 0; i < n; i++) {
 			int start = low + i*block_size;
 			int end = Math.min(low + (i+1)*block_size, high);
@@ -101,23 +101,29 @@ public class DDMinAlgorithmParallel {
 //				return ddmin_n(temp_deltas, 2);
 //			}
 			
-			CompletableFuture<String> future2 = CompletableFuture.supplyAsync(() -> {
+			CompletableFuture<List<Object>> future2 = CompletableFuture.supplyAsync(() -> {
 				System.out.println(temp_deltas);
-				String result1 = testDelta(temp_deltas);
-	            return result1;
+				String result2 = testDelta(temp_deltas);
+	            return Arrays.asList(result2, temp_deltas);
 			}, executor);
-			future2.thenAccept(result1 -> {
-				System.out.println("-------------complete------------");
-//				if ("error".equals(result1)) {
-//					return ddmin_n(temp_deltas, 2);
-//				}
+			future2.thenAccept(result2 -> {
+				System.out.println("-------------complete------------" + result2);
 			});
 			futureList.add(future2);
 		}
 		
 		CompletableFuture<Void> allDoneFuture = CompletableFuture.allOf(futureList.toArray(new CompletableFuture[futureList.size()]));	
-		//阻塞等待所有任务执行完成
+		//wait until all done
 		allDoneFuture.join();
+		
+		for(int i = 0; i < futureList.size(); i++) {
+			CompletableFuture<List<Object>> future = futureList.get(i);
+			List<Object> result2 = future.get();
+			if ("error".equals(result2.get(0))) {
+				return ddmin_n((List<String>)result2.get(1), 2);
+			}
+		}
+		
 		
 		//complement
 		for(int i = 0; i < n; i++) {
