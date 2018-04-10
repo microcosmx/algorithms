@@ -116,7 +116,7 @@ public class ParallelDDMinAlgorithm {
 			if (processed_deltas.contains(temp_deltas)) {
 				continue;
 			}
-			if(ddmin_delta.deltas_conflicts.size()>0 && 
+			if(ddmin_delta.deltas_conflicts != null && ddmin_delta.deltas_conflicts.size()>0 && 
 					ddmin_delta.deltas_conflicts.stream().anyMatch(x->temp_deltas.containsAll(x))) {
 				continue;
 			}
@@ -161,6 +161,13 @@ public class ParallelDDMinAlgorithm {
 			List<String> result_deltas = (List<String>) CollectionUtils.subtract(deltas, temp_deltas);
 
 			if (processed_deltas.contains(result_deltas)) {
+				continue;
+			}
+			System.out.println(result_deltas);
+			System.out.println(ddmin_delta.deltas_conflicts);
+			System.out.println(ddmin_delta.deltas_conflicts.stream().anyMatch(x->result_deltas.containsAll(x)));
+			if(ddmin_delta.deltas_conflicts != null && ddmin_delta.deltas_conflicts.size()>0 && 
+					ddmin_delta.deltas_conflicts.stream().anyMatch(x->result_deltas.containsAll(x))) {
 				continue;
 			}
 			CompletableFuture<List<Object>> future2 = CompletableFuture.supplyAsync(() -> {

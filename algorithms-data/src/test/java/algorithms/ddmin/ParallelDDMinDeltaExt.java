@@ -31,7 +31,7 @@ public class ParallelDDMinDeltaExt extends ParallelDDMinDelta {
 		deltas_conflicts = Arrays.asList( 
 				Arrays.asList("delta1", "delta3"), 
 				Arrays.asList("delta6", "delta7")
-			);;
+			);
 
 		expectError = "error1";
 		expectPass = "pass1";
@@ -40,7 +40,7 @@ public class ParallelDDMinDeltaExt extends ParallelDDMinDelta {
 	public boolean applyDelta(List<String> deltas) {
 		// TODO 1. recovery to original cluster status
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(1200);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -52,7 +52,7 @@ public class ParallelDDMinDeltaExt extends ParallelDDMinDelta {
 	}
 
 	public String processAndGetResult(List<String> deltas, List<String> testcases) {
-		// TODO execute testcases, hardcode "delta3", "delta6" here
+		// TODO execute testcases, hardcode "delta3", "delta6", "delta12" here
 		String returnResult = "";
 		if (CollectionUtils.containsAll(deltas, deltas_expected)) {
 			returnResult = expectError;
