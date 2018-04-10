@@ -26,6 +26,12 @@ public class ParallelDDMinDeltaExt extends ParallelDDMinDelta {
 
 		// deltas_all = Arrays.asList("delta1", "delta2", "delta3");
 		// deltas_expected = Arrays.asList("delta2");
+		
+		deltas_dependencies = null;
+		deltas_conflicts = Arrays.asList( 
+				Arrays.asList("delta1", "delta3"), 
+				Arrays.asList("delta6", "delta7")
+			);;
 
 		expectError = "error1";
 		expectPass = "pass1";

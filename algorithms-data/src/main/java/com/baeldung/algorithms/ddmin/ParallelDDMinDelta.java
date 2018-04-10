@@ -17,6 +17,9 @@ public class ParallelDDMinDelta {
 
 	public List<String> deltas_expected = null;
 	public List<String> deltas_all = null;
+	
+	public List<String> deltas_dependencies = null;
+	public List<List<String>> deltas_conflicts = null;
 
 	public String expectError = "";
 	public String expectPass = "";

@@ -116,6 +116,10 @@ public class ParallelDDMinAlgorithm {
 			if (processed_deltas.contains(temp_deltas)) {
 				continue;
 			}
+			if(ddmin_delta.deltas_conflicts.size()>0 && 
+					ddmin_delta.deltas_conflicts.stream().anyMatch(x->temp_deltas.containsAll(x))) {
+				continue;
+			}
 			CompletableFuture<List<Object>> future2 = CompletableFuture.supplyAsync(() -> {
 				try {
 					String cluster = cluster_queue.take();
