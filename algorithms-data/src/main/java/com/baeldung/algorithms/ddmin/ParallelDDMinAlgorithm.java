@@ -30,7 +30,7 @@ public class ParallelDDMinAlgorithm {
 	}
 
 	private ExecutorService executor = Executors.newFixedThreadPool(12);
-	private Set<List<String>> processed_deltas = new HashSet<List<String>>();
+	private volatile Set<List<String>> processed_deltas = new HashSet<List<String>>();
 
 	BlockingQueue<String> cluster_queue = null;
 
@@ -116,10 +116,10 @@ public class ParallelDDMinAlgorithm {
 			if (processed_deltas.contains(temp_deltas)) {
 				continue;
 			}
-			if(ddmin_delta.deltas_conflicts != null && ddmin_delta.deltas_conflicts.size()>0 && 
-					ddmin_delta.deltas_conflicts.stream().anyMatch(x->temp_deltas.containsAll(x))) {
-				continue;
-			}
+//			if(ddmin_delta.deltas_conflicts != null && ddmin_delta.deltas_conflicts.size()>0 && 
+//					ddmin_delta.deltas_conflicts.stream().anyMatch(x->temp_deltas.containsAll(x))) {
+//				continue;
+//			}
 			CompletableFuture<List<Object>> future2 = CompletableFuture.supplyAsync(() -> {
 				try {
 					String cluster = cluster_queue.take();
@@ -163,13 +163,15 @@ public class ParallelDDMinAlgorithm {
 			if (processed_deltas.contains(result_deltas)) {
 				continue;
 			}
-			System.out.println(result_deltas);
-			System.out.println(ddmin_delta.deltas_conflicts);
-			System.out.println(ddmin_delta.deltas_conflicts.stream().anyMatch(x->result_deltas.containsAll(x)));
-			if(ddmin_delta.deltas_conflicts != null && ddmin_delta.deltas_conflicts.size()>0 && 
-					ddmin_delta.deltas_conflicts.stream().anyMatch(x->result_deltas.containsAll(x))) {
-				continue;
-			}
+			// System.out.println(result_deltas);
+			// System.out.println(ddmin_delta.deltas_conflicts);
+			// System.out.println(ddmin_delta.deltas_conflicts.stream().anyMatch(x->result_deltas.containsAll(x)));
+			// if(ddmin_delta.deltas_conflicts != null &&
+			// ddmin_delta.deltas_conflicts.size()>0 &&
+			// ddmin_delta.deltas_conflicts.stream().anyMatch(x->result_deltas.containsAll(x)))
+			// {
+			// continue;
+			// }
 			CompletableFuture<List<Object>> future2 = CompletableFuture.supplyAsync(() -> {
 				try {
 					String cluster = cluster_queue.take();
