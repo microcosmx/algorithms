@@ -55,13 +55,13 @@ public class ParallelDDMinAlgorithm {
 
 	public String testDelta(List<String> deltas, String cluster) {
 		// apply delta
-		boolean result1 = ddmin_delta.applyDelta(deltas);
+		boolean result1 = ddmin_delta.applyDelta(deltas, cluster);
 		if (!result1) {
 			return "issue";
 		}
 
 		// run test case and get result
-		String result2 = ddmin_delta.processAndGetResult(deltas, ddmin_delta.testcases);
+		String result2 = ddmin_delta.processAndGetResult(deltas, ddmin_delta.testcases, cluster);
 		if (ddmin_delta.expectError.equals(result2)) {
 			return "error";
 		} else if (ddmin_delta.expectPass.equals(result2)) {

@@ -37,7 +37,8 @@ public class ParallelDDMinDeltaExt extends ParallelDDMinDelta {
 		expectPass = "pass1";
 	}
 
-	public boolean applyDelta(List<String> deltas) {
+	@Override
+	public boolean applyDelta(List<String> deltas, String cluster) {
 		// TODO 1. recovery to original cluster status
 		try {
 			Thread.sleep(1200);
@@ -51,7 +52,8 @@ public class ParallelDDMinDeltaExt extends ParallelDDMinDelta {
 		return true;
 	}
 
-	public String processAndGetResult(List<String> deltas, List<String> testcases) {
+	@Override
+	public String processAndGetResult(List<String> deltas, List<String> testcases, String cluster) {
 		// TODO execute testcases, hardcode "delta3", "delta6", "delta12" here
 		String returnResult = "";
 		if (CollectionUtils.containsAll(deltas, deltas_expected)) {
