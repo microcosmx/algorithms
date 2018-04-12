@@ -1,10 +1,13 @@
 package com.baeldung.algorithms.ddmin;
 
+import static org.hamcrest.CoreMatchers.startsWith;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -117,7 +120,20 @@ public class ParallelDDMinAlgorithm {
 				continue;
 			}
 			if(ddmin_delta.deltas_conflicts != null && ddmin_delta.deltas_conflicts.size()>0 && 
-					ddmin_delta.deltas_conflicts.stream().anyMatch(x->temp_deltas.containsAll(x))) {
+					ddmin_delta.deltas_conflicts.stream().anyMatch(x-> {
+						List<String> seq_deltas = temp_deltas.stream().filter(p->p.startsWith("seq")).collect(Collectors.toList());
+						
+						//{seqB=[seqB_3_1_2, seqB_4_2_3, seqB_4_1_3], seqA=[seqA_4_1_2, seqA_4_2_3, seqA_4_3_4, seqA_4_1_3, seqA_4_2_4, seqA_4_1_4]}
+						Map<String, List<String>> seq_deltas_result =
+								seq_deltas.stream().collect(
+				                        Collectors.groupingBy(
+				                        		seq_name->seq_name.toString().split("_")[0], Collectors.toList()
+				                        )
+				                );
+						
+						
+						return temp_deltas.containsAll(x);
+					})) {
 				continue;
 			}
 			CompletableFuture<List<Object>> future2 = CompletableFuture.supplyAsync(() -> {

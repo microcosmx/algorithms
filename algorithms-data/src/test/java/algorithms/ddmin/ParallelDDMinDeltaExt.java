@@ -20,17 +20,24 @@ public class ParallelDDMinDeltaExt extends ParallelDDMinDelta {
 
 		clusters = Arrays.asList("cluster1", "cluster2", "cluster3");
 
-		deltas_all = Arrays.asList("delta1", "delta2", "delta3", "delta4", "delta5", "delta6", "delta7", "delta8",
-				"delta9", "delta10", "delta11", "delta12");
-		deltas_expected = Arrays.asList("delta3", "delta6", "delta12");
+		deltas_all = Arrays.asList("delta1", "delta2", "delta3", "delta4", "delta5", "delta6", 
+				"delta7", "delta8","delta9", "delta10", "delta11", "delta12",
+				"seqA_4_1_2", "seqA_4_2_3","seqA_4_3_4", "seqA_4_1_3", "seqA_4_2_4", "seqA_4_1_4",
+				"seqB_3_1_2", "seqB_4_2_3","seqB_4_1_3");
+		deltas_expected = Arrays.asList("delta3", "delta6", "delta12", "seqA_4_1_2", "seqA_4_1_3", "seqB_3_1_2"); //seqA error: 2314, seqB error: 213
 
 		// deltas_all = Arrays.asList("delta1", "delta2", "delta3");
 		// deltas_expected = Arrays.asList("delta2");
 		
 		deltas_dependencies = null;
 		deltas_conflicts = Arrays.asList( 
-				Arrays.asList("delta1", "delta3"), 
-				Arrays.asList("delta6", "delta7")
+				Arrays.asList("seqA_4_1_3"), 
+				Arrays.asList("seqA_4_2_4"),
+				Arrays.asList("seqA_4_1_4"),
+				Arrays.asList("seqA_4_1_2", "seqA_4_2_3"),
+				Arrays.asList("seqA_4_1_2", "seqA_4_2_4"),
+				Arrays.asList("seqA_4_1_3", "seqA_4_3_4"),
+				Arrays.asList("seqA_4_1_2", "seqA_4_2_3", "seqA_4_3_4")
 			);
 
 		expectError = "error1";
