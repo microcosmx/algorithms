@@ -24,11 +24,11 @@ public class ParallelDDMinDelta {
 	public String expectError = "";
 	public String expectPass = "";
 
-	public boolean applyDelta(List<String> deltas) {
+	public boolean applyDelta(List<String> deltas, String cluster) {
 		return true;
 	}
 
-	public String processAndGetResult(List<String> deltas, List<String> testcases) {
+	public String processAndGetResult(List<String> deltas, List<String> testcases, String cluster) {
 		return expectError;
 	}
 

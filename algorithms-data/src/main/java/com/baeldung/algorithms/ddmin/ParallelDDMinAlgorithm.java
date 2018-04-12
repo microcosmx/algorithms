@@ -33,7 +33,7 @@ public class ParallelDDMinAlgorithm {
 	}
 
 	private ExecutorService executor = Executors.newFixedThreadPool(12);
-	private Set<List<String>> processed_deltas = new HashSet<List<String>>();
+	private volatile Set<List<String>> processed_deltas = new HashSet<List<String>>();
 
 	BlockingQueue<String> cluster_queue = null;
 
@@ -58,13 +58,13 @@ public class ParallelDDMinAlgorithm {
 
 	public String testDelta(List<String> deltas, String cluster) {
 		// apply delta
-		boolean result1 = ddmin_delta.applyDelta(deltas);
+		boolean result1 = ddmin_delta.applyDelta(deltas, cluster);
 		if (!result1) {
 			return "issue";
 		}
 
 		// run test case and get result
-		String result2 = ddmin_delta.processAndGetResult(deltas, ddmin_delta.testcases);
+		String result2 = ddmin_delta.processAndGetResult(deltas, ddmin_delta.testcases, cluster);
 		if (ddmin_delta.expectError.equals(result2)) {
 			return "error";
 		} else if (ddmin_delta.expectPass.equals(result2)) {
@@ -184,13 +184,15 @@ public class ParallelDDMinAlgorithm {
 			if (processed_deltas.contains(result_deltas)) {
 				continue;
 			}
-			System.out.println(result_deltas);
-			System.out.println(ddmin_delta.deltas_conflicts);
-			System.out.println(ddmin_delta.deltas_conflicts.stream().anyMatch(x->result_deltas.containsAll(x)));
-			if(ddmin_delta.deltas_conflicts != null && ddmin_delta.deltas_conflicts.size()>0 && 
-					ddmin_delta.deltas_conflicts.stream().anyMatch(x->result_deltas.containsAll(x))) {
-				continue;
-			}
+			// System.out.println(result_deltas);
+			// System.out.println(ddmin_delta.deltas_conflicts);
+			// System.out.println(ddmin_delta.deltas_conflicts.stream().anyMatch(x->result_deltas.containsAll(x)));
+			// if(ddmin_delta.deltas_conflicts != null &&
+			// ddmin_delta.deltas_conflicts.size()>0 &&
+			// ddmin_delta.deltas_conflicts.stream().anyMatch(x->result_deltas.containsAll(x)))
+			// {
+			// continue;
+			// }
 			CompletableFuture<List<Object>> future2 = CompletableFuture.supplyAsync(() -> {
 				try {
 					String cluster = cluster_queue.take();
