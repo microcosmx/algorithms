@@ -50,7 +50,6 @@ public class ParallelDDMinDeltaExt extends ParallelDDMinDelta {
 	@Override
 	public boolean applyDelta(List<String> deltas, String cluster) {
 		Map<String, String> seq_deltas = getSeqDeltas(deltas);
-		System.out.println("------------------------");
 		System.out.println(seq_deltas);
 		// TODO 1. recovery to original cluster status
 		try {
