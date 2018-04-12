@@ -42,7 +42,7 @@ public class ParallelDDMinAlgorithmTest {
 		List<String> error = Arrays.asList("delta3", "delta6", "delta12", "seqA_4_1_3", "seqB_3_1_2");
 		Map<String, String> result = ddmin_delta.getSeqDeltas(error);
 
-		System.out.println("-------------final----------------");
+		System.out.println("-------------final seq----------------");
 		System.out.println(result);
 	}
 
