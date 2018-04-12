@@ -165,7 +165,7 @@ public class ParallelDDMinAlgorithm {
 			if (processed_deltas.contains(result_deltas)) {
 				continue;
 			}
-			if (ddmin_delta.checkSeqDeltaConflicts(temp_deltas)) {
+			if (ddmin_delta.checkSeqDeltaConflicts(result_deltas)) {
 				System.out.println("-------skip sequence---------");
 				System.out.println(temp_deltas);
 				continue;
