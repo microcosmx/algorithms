@@ -119,26 +119,7 @@ public class ParallelDDMinAlgorithm {
 			if (processed_deltas.contains(temp_deltas)) {
 				continue;
 			}
-			if(ddmin_delta.deltas_conflicts != null && ddmin_delta.deltas_conflicts.size()>0 && 
-					ddmin_delta.deltas_conflicts.stream().anyMatch(x-> {
-						List<String> seq_deltas = temp_deltas.stream().filter(p->p.startsWith("seq")).collect(Collectors.toList());
-						
-						//{seqB=[seqB_3_1_2, seqB_4_2_3, seqB_4_1_3], seqA=[seqA_4_1_2, seqA_4_2_3, seqA_4_3_4, seqA_4_1_3, seqA_4_2_4, seqA_4_1_4]}
-						Map<String, List<String>> seq_deltas_result =
-								seq_deltas.stream().collect(
-				                        Collectors.groupingBy(
-				                        		seq_name->seq_name.toString().split("_")[0], Collectors.toList()
-				                        )
-				                );
-						for (String key : seq_deltas_result.keySet()) {
-							List<String> seq_deltas_spec = seq_deltas_result.get(key);
-							if(seq_deltas_spec.equals(x)) {
-								return true;
-							}
-				        }
-						
-						return false;
-					})) {
+			if (ddmin_delta.checkSeqDeltaConflicts(temp_deltas)) {
 				continue;
 			}
 			CompletableFuture<List<Object>> future2 = CompletableFuture.supplyAsync(() -> {
@@ -184,15 +165,11 @@ public class ParallelDDMinAlgorithm {
 			if (processed_deltas.contains(result_deltas)) {
 				continue;
 			}
-			// System.out.println(result_deltas);
-			// System.out.println(ddmin_delta.deltas_conflicts);
-			// System.out.println(ddmin_delta.deltas_conflicts.stream().anyMatch(x->result_deltas.containsAll(x)));
-			// if(ddmin_delta.deltas_conflicts != null &&
-			// ddmin_delta.deltas_conflicts.size()>0 &&
-			// ddmin_delta.deltas_conflicts.stream().anyMatch(x->result_deltas.containsAll(x)))
-			// {
-			// continue;
-			// }
+			if (ddmin_delta.checkSeqDeltaConflicts(temp_deltas)) {
+				System.out.println("-------skip sequence---------");
+				System.out.println(temp_deltas);
+				continue;
+			}
 			CompletableFuture<List<Object>> future2 = CompletableFuture.supplyAsync(() -> {
 				try {
 					String cluster = cluster_queue.take();
