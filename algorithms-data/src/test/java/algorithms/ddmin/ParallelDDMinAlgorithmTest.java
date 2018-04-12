@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
@@ -31,6 +32,18 @@ public class ParallelDDMinAlgorithmTest {
 
 		Assert.assertTrue(CollectionUtils.isEqualCollection(ddmin_delta.deltas_expected, result));
 
+	}
+	
+	
+	@Test
+	public void get_seq_deltas() throws InterruptedException, ExecutionException {
+		ParallelDDMinDelta ddmin_delta = new ParallelDDMinDeltaExt();
+		List<String> right = Arrays.asList("delta3", "delta6", "delta12", "seqA_4_1_2", "seqA_4_1_3", "seqB_3_1_2");
+		List<String> error = Arrays.asList("delta3", "delta6", "delta12", "seqA_4_1_3", "seqB_3_1_2");
+		Map<String, String> result = ddmin_delta.getSeqDeltas(error);
+
+		System.out.println("-------------final----------------");
+		System.out.println(result);
 	}
 
 }

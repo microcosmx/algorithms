@@ -2,6 +2,7 @@ package algorithms.ddmin;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.Assert;
@@ -48,6 +49,9 @@ public class ParallelDDMinDeltaExt extends ParallelDDMinDelta {
 
 	@Override
 	public boolean applyDelta(List<String> deltas, String cluster) {
+		Map<String, String> seq_deltas = getSeqDeltas(deltas);
+		System.out.println("------------------------");
+		System.out.println(seq_deltas);
 		// TODO 1. recovery to original cluster status
 		try {
 			Thread.sleep(1200);

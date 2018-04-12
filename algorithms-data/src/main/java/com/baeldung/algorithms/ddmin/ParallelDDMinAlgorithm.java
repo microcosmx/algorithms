@@ -119,7 +119,9 @@ public class ParallelDDMinAlgorithm {
 			if (processed_deltas.contains(temp_deltas)) {
 				continue;
 			}
-			if (ddmin_delta.checkSeqDeltaConflicts(temp_deltas)) {
+			// error sequence error_circuit
+			if (ddmin_delta.checkSeqDeltaConflicts(temp_deltas) ||
+					ddmin_delta.getSeqDeltas(temp_deltas).values().stream().anyMatch(x -> "error_circuit".equals(x))) {
 				continue;
 			}
 			CompletableFuture<List<Object>> future2 = CompletableFuture.supplyAsync(() -> {
@@ -165,9 +167,8 @@ public class ParallelDDMinAlgorithm {
 			if (processed_deltas.contains(result_deltas)) {
 				continue;
 			}
-			if (ddmin_delta.checkSeqDeltaConflicts(result_deltas)) {
-				System.out.println("-------skip sequence---------");
-				System.out.println(temp_deltas);
+			if (ddmin_delta.checkSeqDeltaConflicts(result_deltas) || 
+					ddmin_delta.getSeqDeltas(result_deltas).values().stream().anyMatch(x -> "error_circuit".equals(x))) {
 				continue;
 			}
 			CompletableFuture<List<Object>> future2 = CompletableFuture.supplyAsync(() -> {
