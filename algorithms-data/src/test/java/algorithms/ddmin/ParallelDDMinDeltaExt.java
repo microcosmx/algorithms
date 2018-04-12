@@ -23,7 +23,7 @@ public class ParallelDDMinDeltaExt extends ParallelDDMinDelta {
 		deltas_all = Arrays.asList("delta1", "delta2", "delta3", "delta4", "delta5", "delta6", 
 				"delta7", "delta8","delta9", "delta10", "delta11", "delta12",
 				"seqA_4_1_2", "seqA_4_2_3","seqA_4_3_4", "seqA_4_1_3", "seqA_4_2_4", "seqA_4_1_4",
-				"seqB_3_1_2", "seqB_4_2_3","seqB_4_1_3");
+				"seqB_3_1_2", "seqB_3_2_3","seqB_3_1_3");
 		deltas_expected = Arrays.asList("delta3", "delta6", "delta12", "seqA_4_1_2", "seqA_4_1_3", "seqB_3_1_2"); //seqA error: 2314, seqB error: 213
 
 		// deltas_all = Arrays.asList("delta1", "delta2", "delta3");
@@ -37,7 +37,9 @@ public class ParallelDDMinDeltaExt extends ParallelDDMinDelta {
 				Arrays.asList("seqA_4_1_2", "seqA_4_2_3"),
 				Arrays.asList("seqA_4_1_2", "seqA_4_2_4"),
 				Arrays.asList("seqA_4_1_3", "seqA_4_3_4"),
-				Arrays.asList("seqA_4_1_2", "seqA_4_2_3", "seqA_4_3_4")
+				Arrays.asList("seqA_4_1_2", "seqA_4_2_3", "seqA_4_3_4"),
+				Arrays.asList("seqB_3_1_3"),
+				Arrays.asList("seqB_3_1_2", "seqB_3_2_3")
 			);
 
 		expectError = "error1";

@@ -130,9 +130,14 @@ public class ParallelDDMinAlgorithm {
 				                        		seq_name->seq_name.toString().split("_")[0], Collectors.toList()
 				                        )
 				                );
+						for (String key : seq_deltas_result.keySet()) {
+							List<String> seq_deltas_spec = seq_deltas_result.get(key);
+							if(seq_deltas_spec.equals(x)) {
+								return true;
+							}
+				        }
 						
-						
-						return temp_deltas.containsAll(x);
+						return false;
 					})) {
 				continue;
 			}
