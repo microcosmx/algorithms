@@ -34,6 +34,7 @@ public class ParallelDDMinDelta {
 	public String expectError = "";
 	public String expectPass = "";
 
+	@SuppressWarnings("serial")
 	public Map<String, List<String>> default_seq_deltas = new HashMap<String, List<String>>() {
 		{
 			put("3", Arrays.asList("1_2", "2_3", "1_3"));
@@ -115,7 +116,7 @@ public class ParallelDDMinDelta {
 	public List<String> mergeSeq(int seq_size, String base_seq_string, List<String> seq) {
 		List<String> mergeResult = new ArrayList<String>();//Arrays.asList(base_seq_string); 
 		mergeResult.add(base_seq_string);
-		if (base_seq_string.split("_").length > seq_size) {
+		if (base_seq_string.split("_").length >= seq_size) {
 			return mergeResult;
 		}
 		String[] base_seq_array = base_seq_string.split("_");
