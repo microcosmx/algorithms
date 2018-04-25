@@ -183,7 +183,7 @@ public class ParallelDDMinAlgorithm {
 		allDoneFuture.join();
 		
 		CompletableFuture<Void> allDoneFuture2 = CompletableFuture
-				.allOf(futureList.toArray(new CompletableFuture[futureList.size()]));
+				.allOf(futureList2.toArray(new CompletableFuture[futureList2.size()]));
 		allDoneFuture2.join();
 
 		
