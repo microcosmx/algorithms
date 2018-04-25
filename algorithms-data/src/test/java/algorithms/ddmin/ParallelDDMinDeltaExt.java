@@ -29,7 +29,7 @@ public class ParallelDDMinDeltaExt extends ParallelDDMinDelta {
 		deltas_expected = Arrays.asList("delta3", "delta6", "delta12", "seqA_6_2_3", "seqA_6_2_4", "seqA_6_5_6", "seqB_3_1_2"); //seqA error: 134265, seqB error: 213
 
 		// deltas_all = Arrays.asList("delta1", "delta2", "delta3");
-		// deltas_expected = Arrays.asList("delta2");
+		 deltas_expected = Arrays.asList("delta2");
 		
 		deltas_dependencies = null;
 		deltas_conflicts = Arrays.asList( 

@@ -92,7 +92,7 @@ public class ParallelDDMinAlgorithm {
 		//
 		// return null;
 
-		return ddmin_n(deltas, 2);
+		return ddmin_n(deltas, 4);
 	}
 
 	public List<String> ddmin_n(List<String> deltas, int n) throws InterruptedException, ExecutionException {
