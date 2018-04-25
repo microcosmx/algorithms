@@ -82,15 +82,17 @@ public class ParallelDDMinAlgorithm {
 	public List<String> ddmin(List<String> deltas) throws InterruptedException, ExecutionException {
 		processed_deltas.clear();
 
-		String cluster = cluster_queue.take();
-		String result = testDelta(deltas, cluster);
-		cluster_queue.put(cluster);
+		// String cluster = cluster_queue.take();
+		// String result = testDelta(deltas, cluster);
+		// cluster_queue.put(cluster);
+		//
+		// if ("error".equals(result)) {
+		// return ddmin_n(deltas, 2);
+		// }
+		//
+		// return null;
 
-		if ("error".equals(result)) {
-			return ddmin_n(deltas, 2);
-		}
-
-		return null;
+		return ddmin_n(deltas, 2);
 	}
 
 	public List<String> ddmin_n(List<String> deltas, int n) throws InterruptedException, ExecutionException {
@@ -120,8 +122,8 @@ public class ParallelDDMinAlgorithm {
 				continue;
 			}
 			// error sequence error_circuit
-			if (ddmin_delta.checkSeqDeltaConflicts(temp_deltas) ||
-					ddmin_delta.getSeqDeltas(temp_deltas).values().stream().anyMatch(x -> "error_circuit".equals(x))) {
+			if (ddmin_delta.checkSeqDeltaConflicts(temp_deltas) || ddmin_delta.getSeqDeltas(temp_deltas).values()
+					.stream().anyMatch(x -> "error_circuit".equals(x))) {
 				continue;
 			}
 			CompletableFuture<List<Object>> future2 = CompletableFuture.supplyAsync(() -> {
@@ -167,8 +169,8 @@ public class ParallelDDMinAlgorithm {
 			if (processed_deltas.contains(result_deltas)) {
 				continue;
 			}
-			if (ddmin_delta.checkSeqDeltaConflicts(result_deltas) || 
-					ddmin_delta.getSeqDeltas(result_deltas).values().stream().anyMatch(x -> "error_circuit".equals(x))) {
+			if (ddmin_delta.checkSeqDeltaConflicts(result_deltas) || ddmin_delta.getSeqDeltas(result_deltas).values()
+					.stream().anyMatch(x -> "error_circuit".equals(x))) {
 				continue;
 			}
 			CompletableFuture<List<Object>> future2 = CompletableFuture.supplyAsync(() -> {
