@@ -101,6 +101,15 @@ public class ParallelDDMinAlgorithm {
 
 		int low = 0;
 		int high = deltas.size();
+		
+		int slices = 4;
+		if(high < 8) {
+			slices = 2;
+		}
+		
+		if(high < 4) {
+			n=2;
+		}
 		// make sure the most fine-grained granularity
 		if (n > high) {
 			return deltas;
@@ -144,6 +153,44 @@ public class ParallelDDMinAlgorithm {
 			});
 			futureList.add(future2);
 		}
+		
+		List<CompletableFuture<List<Object>>> futureList3 = null;
+		if (n == slices || slices == 2) {
+			futureList3 = new ArrayList<CompletableFuture<List<Object>>>();
+
+			for (int i = 0; i < 2; i++) {
+				int start = i == 0 ? 0 : high / 2;
+				int end = i == 0 ? high / 2 : high;
+				List<String> temp_deltas = deltas.subList(start, end);
+
+				if (processed_deltas.contains(temp_deltas)) {
+					continue;
+				}
+				// error sequence error_circuit
+				if (ddmin_delta.checkSeqDeltaConflicts(temp_deltas) || ddmin_delta.getSeqDeltas(temp_deltas).values()
+						.stream().anyMatch(x -> "error_circuit".equals(x))) {
+					continue;
+				}
+				CompletableFuture<List<Object>> future3 = CompletableFuture.supplyAsync(() -> {
+					try {
+						String cluster = cluster_queue.take();
+						String result2 = testDelta(temp_deltas, cluster);
+						cluster_queue.put(cluster);
+						// System.out.println(cluster_queue);
+						return Arrays.asList(result2, temp_deltas, cluster);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					return null;
+				}, executor);
+				future3.thenAccept(result2 -> {
+					System.out.println(result2);
+					processed_deltas.add(temp_deltas);
+				});
+				futureList3.add(future3);
+			}
+
+		}
 
 		// complement
 		List<CompletableFuture<List<Object>>> futureList2 = new ArrayList<CompletableFuture<List<Object>>>();
@@ -182,6 +229,12 @@ public class ParallelDDMinAlgorithm {
 				.allOf(futureList.toArray(new CompletableFuture[futureList.size()]));
 		allDoneFuture.join();
 		
+		if(futureList3!=null) {
+			CompletableFuture<Void> allDoneFuture3 = CompletableFuture
+					.allOf(futureList3.toArray(new CompletableFuture[futureList3.size()]));
+			allDoneFuture.join();
+		}
+		
 		CompletableFuture<Void> allDoneFuture2 = CompletableFuture
 				.allOf(futureList2.toArray(new CompletableFuture[futureList2.size()]));
 		allDoneFuture2.join();
@@ -190,17 +243,27 @@ public class ParallelDDMinAlgorithm {
 		
 		for (int i = 0; i < futureList.size(); i++) {
 			CompletableFuture<List<Object>> future = futureList.get(i);
-			List<Object> result2 = future.get();
-			if (result2 != null && "error".equals(result2.get(0))) {
-				return ddmin_n((List<String>) result2.get(1), 4);
+			List<Object> result = future.get();
+			if (result != null && "error".equals(result.get(0))) {
+				return ddmin_n((List<String>) result.get(1), slices);
+			}
+		}
+		
+		if(futureList3!=null) {
+			for (int i = 0; i < futureList3.size(); i++) {
+				CompletableFuture<List<Object>> future = futureList3.get(i);
+				List<Object> result = future.get();
+				if (result != null && "error".equals(result.get(0))) {
+					return ddmin_n((List<String>) result.get(1), slices);
+				}
 			}
 		}
 
 		for (int i = 0; i < futureList2.size(); i++) {
 			CompletableFuture<List<Object>> future = futureList2.get(i);
-			List<Object> result2 = future.get();
-			if (result2 != null && "error".equals(result2.get(0))) {
-				return ddmin_n((List<String>) result2.get(1), Math.max(n - 1, 2));
+			List<Object> result = future.get();
+			if (result != null && "error".equals(result.get(0))) {
+				return ddmin_n((List<String>) result.get(1), Math.max(n - 1, 2));
 			}
 		}
 
