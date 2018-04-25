@@ -32,7 +32,7 @@ public class ParallelDDMinAlgorithm {
 		this.ddmin_delta = ddmin_delta;
 	}
 
-	private ExecutorService executor = Executors.newFixedThreadPool(12);
+	private ExecutorService executor = Executors.newFixedThreadPool(18);
 	private volatile Set<List<String>> processed_deltas = new HashSet<List<String>>();
 
 	BlockingQueue<String> cluster_queue = null;
