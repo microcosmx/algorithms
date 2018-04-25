@@ -28,7 +28,7 @@ public class ParallelDDMinAlgorithmTest {
 
 		List<String> result = ddmin.ddmin(ddmin_delta.deltas_all);
 		System.out.println("-----------final result---------");
-		System.out.println(result);
+		System.out.println("=========" + result);
 
 		Assert.assertTrue(CollectionUtils.isEqualCollection(ddmin_delta.deltas_expected, result));
 

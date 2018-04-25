@@ -192,7 +192,7 @@ public class ParallelDDMinAlgorithm {
 			CompletableFuture<List<Object>> future = futureList.get(i);
 			List<Object> result2 = future.get();
 			if (result2 != null && "error".equals(result2.get(0))) {
-				return ddmin_n((List<String>) result2.get(1), 2);
+				return ddmin_n((List<String>) result2.get(1), 4);
 			}
 		}
 
