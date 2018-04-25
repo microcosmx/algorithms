@@ -101,24 +101,28 @@ public class ParallelDDMinAlgorithm {
 
 		int low = 0;
 		int high = deltas.size();
-		
+
+		if (high == 3)
+			n = 3;
+		if (high == 2)
+			n = 2;
+		if (high == 1)
+			return deltas;
+
 		int slices = 4;
-		if(high < 8) {
-			slices = 2;
-		}
-		
-		if(high < 4) {
-			n=2;
-		}
+		// if(high <= 8) {
+		// slices = 2;
+		// }
+
 		// make sure the most fine-grained granularity
 		if (n > high) {
 			return deltas;
 		}
 
 		int block_size = high / n;
-		if (block_size <= 1) {
-			n = high;
-		}
+		// if (block_size <= 1) {
+		// n = high;
+		// }
 
 		// subset
 		List<CompletableFuture<List<Object>>> futureList = new ArrayList<CompletableFuture<List<Object>>>();
@@ -153,9 +157,9 @@ public class ParallelDDMinAlgorithm {
 			});
 			futureList.add(future2);
 		}
-		
+
 		List<CompletableFuture<List<Object>>> futureList3 = null;
-		if (n == slices || slices == 2) {
+		if (n == 4) {
 			futureList3 = new ArrayList<CompletableFuture<List<Object>>>();
 
 			for (int i = 0; i < 2; i++) {
@@ -228,19 +232,17 @@ public class ParallelDDMinAlgorithm {
 		CompletableFuture<Void> allDoneFuture = CompletableFuture
 				.allOf(futureList.toArray(new CompletableFuture[futureList.size()]));
 		allDoneFuture.join();
-		
-		if(futureList3!=null) {
+
+		if (futureList3 != null) {
 			CompletableFuture<Void> allDoneFuture3 = CompletableFuture
 					.allOf(futureList3.toArray(new CompletableFuture[futureList3.size()]));
-			allDoneFuture.join();
+			allDoneFuture3.join();
 		}
-		
+
 		CompletableFuture<Void> allDoneFuture2 = CompletableFuture
 				.allOf(futureList2.toArray(new CompletableFuture[futureList2.size()]));
 		allDoneFuture2.join();
 
-		
-		
 		for (int i = 0; i < futureList.size(); i++) {
 			CompletableFuture<List<Object>> future = futureList.get(i);
 			List<Object> result = future.get();
@@ -248,8 +250,8 @@ public class ParallelDDMinAlgorithm {
 				return ddmin_n((List<String>) result.get(1), slices);
 			}
 		}
-		
-		if(futureList3!=null) {
+
+		if (futureList3 != null) {
 			for (int i = 0; i < futureList3.size(); i++) {
 				CompletableFuture<List<Object>> future = futureList3.get(i);
 				List<Object> result = future.get();

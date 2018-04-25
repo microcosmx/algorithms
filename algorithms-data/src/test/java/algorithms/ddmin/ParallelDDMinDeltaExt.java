@@ -1,5 +1,6 @@
 package algorithms.ddmin;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -28,8 +29,18 @@ public class ParallelDDMinDeltaExt extends ParallelDDMinDelta {
 		deltas_expected = Arrays.asList("delta3", "delta6", "delta12", "seqA_6_2_3", "seqA_6_2_4", "seqA_6_5_6",
 				"seqB_3_1_2"); // seqA error: 134265, seqB error: 213
 
-		// deltas_all = Arrays.asList("delta1", "delta2", "delta3");
-		// deltas_expected = Arrays.asList("delta2");
+		// deltas_all = Arrays.asList("1", "2", "3");
+		// deltas_expected = Arrays.asList("2");
+
+		deltas_all = new ArrayList<String>();
+		for (int i = 0; i < 120; i++) {
+			deltas_all.add(String.valueOf(i));
+		}
+		deltas_expected = Arrays.asList("30");
+		deltas_expected = Arrays.asList("30", "60", "91", "118");
+
+		// deltas_all = Arrays.asList("30", "31", "60", "61", "90", "91");
+		// deltas_expected = Arrays.asList("30", "60", "91");
 
 		deltas_dependencies = null;
 		deltas_conflicts = Arrays.asList(Arrays.asList("seqA_6_1_3"), Arrays.asList("seqA_6_2_4"),
