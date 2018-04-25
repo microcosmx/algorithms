@@ -33,9 +33,8 @@ public class ParallelDDMinAlgorithmTest {
 		Assert.assertTrue(CollectionUtils.isEqualCollection(ddmin_delta.deltas_expected, result));
 
 	}
-	
-	
-	@Test
+
+	// @Test
 	public void get_seq_deltas() throws InterruptedException, ExecutionException {
 		ParallelDDMinDelta ddmin_delta = new ParallelDDMinDeltaExt();
 		List<String> right = Arrays.asList("delta3", "delta6", "delta12", "seqA_4_1_2", "seqA_4_1_3", "seqB_3_1_2");
@@ -45,7 +44,7 @@ public class ParallelDDMinAlgorithmTest {
 
 		System.out.println("-------------final seq----------------");
 		System.out.println(result);
-		
+
 		Assert.assertTrue("1_3_4_2_6_5".equals(result.get("seqA")));
 	}
 
