@@ -33,10 +33,10 @@ public class ParallelDDMinDeltaExt extends ParallelDDMinDelta {
 		// deltas_expected = Arrays.asList("2");
 
 		deltas_all = new ArrayList<String>();
-		for (int i = 1; i <= 43; i++) {
+		for (int i = 1; i <= 41; i++) {
 			deltas_all.add(String.valueOf(i));
 		}
-		deltas_expected = Arrays.asList("18");
+		deltas_expected = Arrays.asList("1");
 		// deltas_expected = Arrays.asList("30", "60", "91", "118");
 
 		// deltas_all = Arrays.asList("30", "31", "60", "61", "90", "91");
@@ -59,7 +59,7 @@ public class ParallelDDMinDeltaExt extends ParallelDDMinDelta {
 		System.out.println(seq_deltas);
 		// TODO 1. recovery to original cluster status
 		try {
-			Thread.sleep(30*deltas.size());
+			Thread.sleep(60*deltas.size());
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
