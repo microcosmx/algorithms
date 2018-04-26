@@ -32,15 +32,25 @@ public class ParallelDDMinDeltaExt extends ParallelDDMinDelta {
 		// deltas_all = Arrays.asList("1", "2", "3");
 		// deltas_expected = Arrays.asList("2");
 
-		deltas_all = new ArrayList<String>();
-		for (int i = 1; i <= 41; i++) {
-			deltas_all.add(String.valueOf(i));
-		}
-		deltas_expected = Arrays.asList("1");
-		// deltas_expected = Arrays.asList("30", "60", "91", "118");
+		 deltas_all = new ArrayList<String>();
+		 for (int i = 1; i <= 41; i++) {
+		 deltas_all.add(String.valueOf(i));
+		 }
+		 deltas_expected = Arrays.asList("1");
+		 deltas_expected = Arrays.asList("30", "60", "91", "118");
 
 		// deltas_all = Arrays.asList("30", "31", "60", "61", "90", "91");
 		// deltas_expected = Arrays.asList("30", "60", "91");
+
+		deltas_all = new ArrayList<String>();
+		for (int i = 1; i <= 11; i++) {
+			deltas_all.add("instance_" + i);
+		}
+		deltas_all.addAll(Arrays.asList("seqA_5_1_2", "seqA_5_1_3", "seqA_5_1_4", "seqA_5_1_5", "seqA_5_2_3", "seqA_5_2_4", "seqA_5_2_5", "seqA_5_3_4", "seqA_5_3_5", "seqA_5_4_5"));
+		for (int i = 1; i <= 22; i++) {
+			deltas_all.add("config_" + i);
+		}
+		deltas_expected = Arrays.asList("instance_6", "seqA_5_1_2", "seqA_5_1_3", "seqA_5_1_4");
 
 		deltas_dependencies = null;
 		deltas_conflicts = Arrays.asList(Arrays.asList("seqA_6_1_3"), Arrays.asList("seqA_6_2_4"),
@@ -59,7 +69,7 @@ public class ParallelDDMinDeltaExt extends ParallelDDMinDelta {
 		System.out.println(seq_deltas);
 		// TODO 1. recovery to original cluster status
 		try {
-			Thread.sleep(60*deltas.size());
+			Thread.sleep(60 * deltas.size());
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
