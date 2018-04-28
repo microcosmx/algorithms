@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -95,7 +96,7 @@ public class ParallelDDMinAlgorithm2 {
 		return ddmin_n(deltas, 4);
 	}
 
-	public List<String> ddmin_n(List<String> deltas, int n) throws InterruptedException, ExecutionException {
+	public List<String> ddmin_n(List<String> deltas, int n) throws InterruptedException {
 
 		// System.out.println(cluster_queue);
 
@@ -139,11 +140,13 @@ public class ParallelDDMinAlgorithm2 {
 					.stream().anyMatch(x -> "error_circuit".equals(x))) {
 				continue;
 			}
+			System.out.println("subset:" + cluster_queue);
+			final String cluster = cluster_queue.take();
 			CompletableFuture<List<Object>> future2 = CompletableFuture.supplyAsync(() -> {
 				try {
-					String cluster = cluster_queue.take();
 					String result2 = testDelta(temp_deltas, cluster);
 					cluster_queue.put(cluster);
+					System.out.println("subset:" + cluster_queue);
 					// System.out.println(cluster_queue);
 					return Arrays.asList(result2, temp_deltas, cluster);
 				} catch (InterruptedException e) {
@@ -151,11 +154,26 @@ public class ParallelDDMinAlgorithm2 {
 				}
 				return null;
 			}, executor);
+			// future2.handle((result2, th) -> { return (th != null) ?
+			// processed_deltas.add(temp_deltas) : "exception"; });
+			CompletableFuture<List<Object>> cf2 = future2.exceptionally(throwable -> {
+				System.out.println(throwable);
+				try {
+					cluster_queue.put(cluster);
+					System.out.println("subset1:" + cluster_queue);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return Arrays.asList("issue");
+			});
+			// cf2.join();
 			future2.thenAccept(result2 -> {
 				System.out.println(result2);
 				processed_deltas.add(temp_deltas);
 			});
 			futureList.add(future2);
+			// futureList.add(cf2);
 		}
 
 		List<CompletableFuture<List<Object>>> futureList3 = null;
@@ -175,11 +193,13 @@ public class ParallelDDMinAlgorithm2 {
 						.stream().anyMatch(x -> "error_circuit".equals(x))) {
 					continue;
 				}
+				System.out.println("subset:" + cluster_queue);
+				final String cluster = cluster_queue.take();
 				CompletableFuture<List<Object>> future3 = CompletableFuture.supplyAsync(() -> {
 					try {
-						String cluster = cluster_queue.take();
 						String result2 = testDelta(temp_deltas, cluster);
 						cluster_queue.put(cluster);
+						System.out.println("subset:" + cluster_queue);
 						// System.out.println(cluster_queue);
 						return Arrays.asList(result2, temp_deltas, cluster);
 					} catch (InterruptedException e) {
@@ -187,17 +207,31 @@ public class ParallelDDMinAlgorithm2 {
 					}
 					return null;
 				}, executor);
+				CompletableFuture<List<Object>> cf3 = future3.exceptionally(throwable -> {
+					System.out.println(throwable);
+					try {
+						cluster_queue.put(cluster);
+						System.out.println("subset1:" + cluster_queue);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					return Arrays.asList("issue");
+				});
+				// cf3.join();
 				future3.thenAccept(result2 -> {
 					System.out.println(result2);
 					processed_deltas.add(temp_deltas);
 				});
 				futureList3.add(future3);
+				// futureList3.add(cf3);
 			}
 
 		}
 
 		// complement
 		List<CompletableFuture<List<Object>>> futureList2 = new ArrayList<CompletableFuture<List<Object>>>();
+		List<CompletableFuture<List<Object>>> futureList_exp2 = new ArrayList<CompletableFuture<List<Object>>>();
 		for (int i = 0; i < n; i++) {
 			int start = low + i * block_size;
 			int end = Math.min(low + (i + 1) * block_size, high);
@@ -211,22 +245,52 @@ public class ParallelDDMinAlgorithm2 {
 					.stream().anyMatch(x -> "error_circuit".equals(x))) {
 				continue;
 			}
+			System.out.println("comple:" + cluster_queue);
+			String cluster = cluster_queue.take();
 			CompletableFuture<List<Object>> future2 = CompletableFuture.supplyAsync(() -> {
 				try {
-					String cluster = cluster_queue.take();
 					String result2 = testDelta(result_deltas, cluster);
 					cluster_queue.put(cluster);
+					System.out.println("comple:" + cluster_queue);
 					return Arrays.asList(result2, result_deltas, cluster);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 				return null;
 			}, executor);
+			future2.handle((result2, th) -> {
+				if (th != null) {
+					System.out.println(Thread.currentThread() + ":" + th);
+					try {
+						cluster_queue.put(cluster);
+						System.out.println("comple1:" + cluster_queue);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					return Arrays.asList("issue");
+				} else {
+					return Arrays.asList("issue");
+				}
+			});
+			CompletableFuture<List<Object>> cf2 = future2.exceptionally(throwable -> {
+				System.out.println(Thread.currentThread() + ":" + throwable);
+				try {
+					cluster_queue.put(cluster);
+					System.out.println("comple1:" + cluster_queue);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return Arrays.asList("issue");
+			});
+			// cf2.join();
 			future2.thenAccept(result2 -> {
 				System.out.println(result2);
 				processed_deltas.add(result_deltas);
 			});
 			futureList2.add(future2);
+			futureList_exp2.add(cf2);
 		}
 
 		List<CompletableFuture<List<Object>>> futureListAll_1 = new ArrayList<CompletableFuture<List<Object>>>();
@@ -235,25 +299,37 @@ public class ParallelDDMinAlgorithm2 {
 			futureListAll_1.addAll(futureList3);
 		}
 
+		// for(CompletableFuture<List<Object>> future : futureListAll_1) {
+		// future.cancel(true);
+		// }
+
 		CompletableFuture<Void> allDoneFuture1 = CompletableFuture
 				.allOf(futureListAll_1.toArray(new CompletableFuture[futureListAll_1.size()]));
 		allDoneFuture1.join();
-		
+
+		// for (CompletableFuture<List<Object>> future : futureList_exp2) {
+		// future.join();
+		// }
+
 		for (int i = 0; i < futureListAll_1.size(); i++) {
 			CompletableFuture<List<Object>> future = futureListAll_1.get(i);
-			List<Object> result = future.get();
-			if (result != null && "error".equals(result.get(0))) {
-				//cancel other future
-				for (int x = 0; x < futureList2.size(); x++) {
-					CompletableFuture<List<Object>> futurex = futureList2.get(x);
-					if(!futurex.isDone()) {
+			try {
+				List<Object> result;
+				result = future.get();
+				if (result != null && "error".equals(result.get(0))) {
+					// cancel other future
+					for (int x = 0; x < futureList2.size(); x++) {
+						CompletableFuture<List<Object>> futurex = futureList2.get(x);
 						futurex.cancel(true);
 					}
+					// return
+					return ddmin_n((List<String>) result.get(1), slices);
 				}
-				
-				//return 
-				return ddmin_n((List<String>) result.get(1), slices);
+			} catch (InterruptedException | ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+
 		}
 
 		CompletableFuture<Void> allDoneFuture2 = CompletableFuture
@@ -262,10 +338,22 @@ public class ParallelDDMinAlgorithm2 {
 
 		for (int i = 0; i < futureList2.size(); i++) {
 			CompletableFuture<List<Object>> future = futureList2.get(i);
-			List<Object> result = future.get();
-			if (result != null && "error".equals(result.get(0))) {
-				return ddmin_n((List<String>) result.get(1), Math.max(n - 1, 2));
+			try {
+				List<Object> result;
+				result = future.get();
+				System.out.println(result);
+				if (result != null && "error".equals(result.get(0))) {
+					return ddmin_n((List<String>) result.get(1), Math.max(n - 1, 2));
+				}
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+			// System.out.println("--------cancelled:" + result);
+
 		}
 
 		// granularity

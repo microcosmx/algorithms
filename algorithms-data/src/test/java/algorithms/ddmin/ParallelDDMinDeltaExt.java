@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.jenetics.internal.math.random;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -33,10 +34,10 @@ public class ParallelDDMinDeltaExt extends ParallelDDMinDelta {
 		// deltas_expected = Arrays.asList("2");
 
 		deltas_all = new ArrayList<String>();
-		for (int i = 1; i <= 41; i++) {
+		for (int i = 1; i <= 128; i++) {
 			deltas_all.add(String.valueOf(i));
 		}
-		deltas_expected = Arrays.asList("1");
+		deltas_expected = Arrays.asList("1", "10");
 		// deltas_expected = Arrays.asList("30", "60", "91", "118");
 
 		// deltas_all = Arrays.asList("30", "31", "60", "61", "90", "91");
@@ -56,10 +57,10 @@ public class ParallelDDMinDeltaExt extends ParallelDDMinDelta {
 	@Override
 	public boolean applyDelta(List<String> deltas, String cluster) {
 		Map<String, String> seq_deltas = getSeqDeltas(deltas);
-		System.out.println(seq_deltas);
+		// System.out.println(seq_deltas);
 		// TODO 1. recovery to original cluster status
 		try {
-			Thread.sleep(60*deltas.size());
+			Thread.sleep((long) (600 * Math.random()));
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
