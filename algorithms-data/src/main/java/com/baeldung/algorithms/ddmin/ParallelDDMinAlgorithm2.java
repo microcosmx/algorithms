@@ -1,7 +1,5 @@
 package com.baeldung.algorithms.ddmin;
 
-import static org.hamcrest.CoreMatchers.startsWith;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

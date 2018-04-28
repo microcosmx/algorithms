@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.junit.Assert;
-import org.junit.Test;
 
 import com.baeldung.algorithms.ddmin.DDMinAlgorithm;
 
