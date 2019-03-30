@@ -22,6 +22,7 @@ public class ParallelDDMinDeltaExt extends ParallelDDMinDelta {
 		testcases = Arrays.asList("test1", "test2");
 
 		clusters = Arrays.asList("cluster1", "cluster2", "cluster3", "cluster4", "cluster5", "cluster6");
+		// clusters = Arrays.asList("cluster1", "cluster2", "cluster3", "cluster4");
 
 		deltas_all = Arrays.asList("delta1", "delta2", "delta3", "delta4", "delta5", "delta6", "delta7", "delta8",
 				"delta9", "delta10", "delta11", "delta12", "seqA_6_1_2", "seqA_6_2_3", "seqA_6_3_4", "seqA_6_4_5",
