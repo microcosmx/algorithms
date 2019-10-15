@@ -1,0 +1,7 @@
+
+
+python3 api:
+https://www.w3cschool.cn/python
+https://www.w3cschool.cn/python/dict
+
+
