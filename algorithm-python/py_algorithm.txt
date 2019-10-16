@@ -5,7 +5,8 @@ py-algorithm:
 $ pyenv versions
 $ pyenv local 3.6.3
 
-
+numpy:
+python -m pip install numpy
 
 
 
