@@ -6,6 +6,7 @@ $ pyenv versions
 $ pyenv local 3.6.3
 
 numpy:
+python -m pip install --upgrade pip
 python -m pip install numpy
 
 
