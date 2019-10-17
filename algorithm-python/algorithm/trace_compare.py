@@ -77,12 +77,39 @@ trace4 = [[1,0,0,0,0,0],
           [0,0,0,0,1,0],
           [0,0,0,1,0,0]]
 
-def compare_trace_1(t1, t2):
+
+
+def trace_sub(t1, item_num):
+    if(item_num >= len(t1)):
+        return t1
+    else:
+        return [t1[index:(item_num+index)] for index in range(len(t1)-item_num+1)]
+
+# print(trace_sub(trace3, 8))
+
+def compare_trace_block(t1, t2):
     for i in range(len(t1)):
-        item1 = t1[i]
-        item2 = t2[i]
-        if(item1 == item2):
-            print(i)
+        if(t1[i] == t2[i]):
+            continue
+        else:
+            return False
+    return True
+
+# print(compare_trace_block(trace3, trace4))
+
+
+def compare_trace_1(t1, t2):
+    t1_sub = trace_sub(t1, 6)
+    t2_sub = trace_sub(t2, 6)
+    for i in range(len(t1_sub)):
+        item1 = t1_sub[i]
+        for j in range(len(t2_sub)):
+            item2 = t2_sub[j]
+            if(compare_trace_block(item1, item2)):
+                print("t1:", i, item1)
+                print("t2:", j, item2)
+            else:
+                continue
 
 
 g1 = compare_trace_1(trace3, trace4)
