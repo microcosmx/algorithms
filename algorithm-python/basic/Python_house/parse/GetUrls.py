@@ -12,8 +12,8 @@ headers = {
 res = requests.get(url, headers=headers)
 soup = BeautifulSoup(res.text, 'lxml')
 soup.find_all('div', attrs={'class': 'city-enum fl'})
-start = '大连租房'
-end = '漳州'
+start = '北京'
+end = '海南'
 flag = False
 for s in soup:
 	try:

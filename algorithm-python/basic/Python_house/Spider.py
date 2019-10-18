@@ -15,7 +15,7 @@ data = json.load(f)
 
 
 # 将数据保存到Excel
-def save_to_excel(infos, excel_name='loupan'):
+def save_to_excel(infos, excel_name='loupan1'):
 	print('[INFO]:Start to save data...')
 	wb = Workbook()
 	ws = wb.active
