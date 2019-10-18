@@ -2,11 +2,11 @@
 
 
 
-# from algorithms.bfs import (
-#     maze_search,
-#     shortest_distance_from_all_buildings,
-#     ladder_length
-# )
+from algorithms.bfs import (
+    maze_search,
+    shortest_distance_from_all_buildings,
+    ladder_length
+)
 #
 # import unittest
 #
