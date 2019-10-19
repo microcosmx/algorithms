@@ -44,7 +44,7 @@ def DrawBar(bar_name, price):
 
 	bar.add_xaxis(attrs)
 	bar.add_yaxis("house", values)
-	bar.set_global_opts(title_opts=opts.TitleOpts(title="房价(元/平方)"))
+	bar.set_global_opts(title_opts=opts.TitleOpts(title="北京房价(元/平方)"))
 	bar.render()
 
 
