@@ -1,0 +1,7 @@
+更多chromedriver版本可在：http://chromedriver.storage.googleapis.com/index.html下载
+
+
+解压后放在：
+D:\Python35\Scripts
+
+否则请自行修改源代码中chromedriver的路径，该路径必须在环境变量中。
