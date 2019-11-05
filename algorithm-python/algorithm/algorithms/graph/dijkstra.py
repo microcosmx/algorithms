@@ -1,12 +1,15 @@
 #Dijkstra's single source shortest path algorithm
 
+import random
+
 class Graph():
 
     def __init__(self, vertices):
         self.vertices = vertices
-        self.graph = [[0 for column in range(vertices)] for row in range(vertices)]
+        self.graph = [[random.randint(0, 6) for column in range(vertices)] for row in range(vertices)]
 
     def min_distance(self, dist, min_dist_set):
+        min_index = 0
         min_dist = float("inf")
         for v in range(self.vertices):
             if dist[v] < min_dist and min_dist_set[v] == False:
