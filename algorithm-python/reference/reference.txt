@@ -1,3 +1,11 @@
 
 
+baidu地图开放平台：
+http://lbsyun.baidu.com/
+http://lbsyun.baidu.com/index.php?title=webapi/guide/timezone
+
+
+
+
+
 
