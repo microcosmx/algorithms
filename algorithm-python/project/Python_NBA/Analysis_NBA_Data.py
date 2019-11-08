@@ -6,6 +6,8 @@ import numpy as np
 from sklearn.model_selection import cross_val_score
 from sklearn.linear_model import LogisticRegression
 
+import matplotlib.pyplot as plt
+
 
 class NBA():
 	def __init__(self, Mstats, Ostats, Tstats, results_data, schedules):
@@ -136,21 +138,35 @@ class NBA():
 
 
 if __name__ == '__main__':
-	# 综合统计数据
-	Mis_Stats = pandas.read_csv('./data/16-17Miscellaneous_Stats.csv')
-	# 每支队伍的对手平均每场比赛的表现统计
-	Opp_Stats = pandas.read_csv('./data/16-17Opponent_Per_Game_Stats.csv')
-	# 每支队伍平均每场比赛的表现统计
-	Tea_Stats = pandas.read_csv('./data/16-17Team_Per_Game_Stats.csv')
-	# 16-17年每场比赛的数据集
-	results_data = pandas.read_csv('./data/2016-2017_results.csv')
-	# 17-18年比赛安排
-	schedule16_17 = pandas.read_csv('./data/17-18Schedule.csv')
-	pred_results = NBA(Mis_Stats, Opp_Stats, Tea_Stats, results_data, schedule16_17).run()
-	print('[INFO]:start saving pred results...')
-	with open('17-18Result.csv', 'w') as f:
-		writer = csv.writer(f)
-		writer.writerow(['winner', 'loser', 'probability'])
-		writer.writerows(pred_results)
-		f.close()
-	print('[INFO]:All things done...')
+	# # 综合统计数据
+	# Mis_Stats = pandas.read_csv('./data/16-17Miscellaneous_Stats.csv')
+	# # 每支队伍的对手平均每场比赛的表现统计
+	# Opp_Stats = pandas.read_csv('./data/16-17Opponent_Per_Game_Stats.csv')
+	# # 每支队伍平均每场比赛的表现统计
+	# Tea_Stats = pandas.read_csv('./data/16-17Team_Per_Game_Stats.csv')
+	# # 16-17年每场比赛的数据集
+	# results_data = pandas.read_csv('./data/2016-2017_results.csv')
+	# # 17-18年比赛安排
+	# schedule16_17 = pandas.read_csv('./data/17-18Schedule.csv')
+	# pred_results = NBA(Mis_Stats, Opp_Stats, Tea_Stats, results_data, schedule16_17).run()
+	# print('[INFO]:start saving pred results...')
+	# with open('17-18Result.csv', 'w') as f:
+	# 	writer = csv.writer(f)
+	# 	writer.writerow(['winner', 'loser', 'probability'])
+	# 	writer.writerows(pred_results)
+	# 	f.close()
+	# print('[INFO]:All things done...')
+
+
+
+	results = pandas.read_csv('./17-18Result.csv')
+	# print(results.loc[:, ["winner"]])
+	# results.plot()
+
+	# results.drop(['loser'], axis=1).plot()
+
+	results.loc[0:12].plot.bar(x='winner', y='probability')
+
+	plt.figure()
+	plt.show()
+
