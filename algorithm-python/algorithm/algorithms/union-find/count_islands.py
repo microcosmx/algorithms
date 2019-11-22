@@ -19,7 +19,7 @@ Operation #1: addLand(0, 0) turns the water at grid[0][0] into a land.
 1 0 0
 0 0 0   Number of islands = 1
 0 0 0
-Operation #2: addLand(0, 1) turns the water at grid[0][1] into a land.
+Operation #2: addLand(0, 1) turns the water at grid[0][1] into  a land.
 
 1 1 0
 0 0 0   Number of islands = 1
